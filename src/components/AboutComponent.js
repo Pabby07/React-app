@@ -10,6 +10,7 @@ function About(props) {
     let c=0
     const leaders = props.leaders.map((leader) => {
         console.log(leader)
+        debugger
         //let img="../../public"+leader.image
         return (
             
