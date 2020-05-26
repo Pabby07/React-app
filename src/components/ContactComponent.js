@@ -27,7 +27,6 @@ class Contact extends Component  {
     handleSubmit(values) {
         console.log('Current State is: ' + JSON.stringify(values));
         alert('Current State is: ' + JSON.stringify(values));
-        // event.preventDefault();
     }
 
     
@@ -193,7 +192,7 @@ class Contact extends Component  {
                                 </Col>
                             </Row>
                             <Row className="form-group">
-                                <Label htmlFor="message" md={2}>Feedback</Label>
+                                <Label htmlFor="message" md={2}>Your Feedback</Label>
                                 <Col md={10}>
                                     <Control.textarea model=".message" id="message" name="message"
                                         rows="12"
@@ -203,7 +202,7 @@ class Contact extends Component  {
                             <Row className="form-group">
                                 <Col md={{size:10, offset: 2}}>
                                     <Button type="submit" color="primary">
-                                    Submit
+                                    Send Feedback
                                     </Button>
                                 </Col>
                             </Row>

@@ -2,6 +2,7 @@ import React from 'react';
 import { Card, CardImg, CardText, CardBody, CardTitle, Breadcrumb, BreadcrumbItem } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import CommentForm from './CommentFormComponent';
+import { Loading } from './LoadingComponent';
 
     function RenderDish({dish}) {
 
@@ -20,9 +21,12 @@ import CommentForm from './CommentFormComponent';
         );
     }
 
-    function RenderComments({comments}){
+    const RenderComments = ({comments, addComment, dishID})=>{
+        
         if (comments != null){
+            
             let comms = comments.map((comm, i) => {
+                
                 let date = new Intl.DateTimeFormat('en-US', {
                     year:'numeric',
                     month: 'short',
@@ -37,12 +41,12 @@ import CommentForm from './CommentFormComponent';
                     );
                 })
             
-            
+            console.log("addcomment",dishID)
             return (
                 <div className="col-12 col-md-5 m-1">
                     <h4>Comments</h4>
                     <div>{comms}</div>
-                    <div><CommentForm /></div>
+                    <div><CommentForm dishID={dishID} addComment={addComment}/></div>
                 </div>
                 
             );
@@ -57,9 +61,28 @@ import CommentForm from './CommentFormComponent';
 
     const DishDetail = (props) => {
         
+        if (props.isLoading) {
+            return(
+                <div className="container">
+                    <div className="row">
+                        <Loading />
+                    </div>
+                </div>
+            );
+        }
+
+        else if (props.errMess) {
+            return(
+                <div className="container">
+                    <div className="row">
+                        <h4>{props.errMess}</h4>
+                    </div>
+                </div>
+            );
+        }
 
         
-        if (props.dish != null) {
+        else if (props.dish != null) { 
             return (
                 <div className="container">
                     <div className="row">
@@ -74,8 +97,11 @@ import CommentForm from './CommentFormComponent';
                         </div>
                     </div>
                     <div className="row">
-                        <RenderDish dish={props.dish} />
-                        <RenderComments comments={props.comments} />
+                        <RenderDish dish={props.dish} /> 
+                        <RenderComments comments={props.comments} 
+                            addComment={props.addComment}
+                            dishID={props.dish[0].id}
+                        />
                     </div>
                 </div>
                 

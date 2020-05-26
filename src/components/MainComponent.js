@@ -9,8 +9,10 @@ import Footer from './FooterComponent'
 
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux';
+import { addComment, fetchDishes } from '../redux/ActionCreators';
 
 const mapStateToProps = state => {
+  console.log("MAIN COMPONENET MAPT STATE TO PROPS:", state.comments)
   return {
     dishes: state.dishes,
     comments: state.comments,
@@ -19,12 +21,21 @@ const mapStateToProps = state => {
   }
 }
 
+const mapDispatchToProps = (dispatch) => ({
+  addComment: (dishID, rating, author, comment) => dispatch(addComment(dishID, rating, author, comment)),
+  fetchDishes: () => {dispatch(fetchDishes())}
+})
+
 
 class Main extends Component {
 
 constructor(props) {
   super(props);
 
+}
+
+componentDidMount() {
+  this.props.fetchDishes();
 }
 
 
@@ -35,7 +46,9 @@ constructor(props) {
     const HomePage = () => {
       return(
           <Home 
-              dish={this.props.dishes.filter((dish) => dish.featured)[0]}
+              dish={this.props.dishes.dishes.filter((dish) => dish.featured)[0]}
+              dishesLoading={this.props.dishes.isLoading}
+              dishesErrMess={this.props.dishes.errMess}
               promotion={this.props.promotions.filter((promo) => promo.featured)[0]}
               leader={this.props.leaders.filter((leader) => leader.featured)[0]}
           />
@@ -43,9 +56,13 @@ constructor(props) {
     }
 
     const DishWithId = ({match}) => {
+      
       return(
-        <DishDetail dish={this.props.dishes.filter((dish) => dish.id === parseInt(match.params.dishId, 10))} 
+        <DishDetail dish={this.props.dishes.dishes.filter((dish) => dish.id === parseInt(match.params.dishId, 10))} 
+        isLoading={this.props.dishes.isLoading}
+        errMess={this.props.dishes.errMess}
         comments={this.props.comments.filter((comment) => comment.dishId === parseInt(match.params.dishId, 10))}
+        addComment={this.props.addComment}
         />
 
       );
@@ -79,4 +96,4 @@ constructor(props) {
   }
 }
 
-export default withRouter(connect(mapStateToProps)(Main));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Main));

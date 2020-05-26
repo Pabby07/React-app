@@ -27,12 +27,13 @@ class CommentForm extends Component {
       }
 
     handleSubmit(values) {
-    console.log('Current State is: ' + JSON.stringify(values));
-    alert('Current State is: ' + JSON.stringify(values));
+        this.toggleModal()
+        this.props.addComment(this.props.dishID, values.rating, values.author, values.comment);
+        // this.props.addComment(this.props.dishID, values.contactType_1, values.firstname, values.message)
     }
 
     render() {
-
+        alert("I got called")
         return(
             <div>
                 <Button color="danger" onClick={this.toggleModal} >Button</Button>
@@ -45,7 +46,7 @@ class CommentForm extends Component {
                             <Row className="form-group">
                                 <Label htmlFor="rating" md={2}>Rating</Label>
                                 <Col md={{size: 12, offset: .5}}>
-                                    <Control.select model=".contactType_1" name="contactType_1"
+                                    <Control.select model=".rating" name="rating"
                                         className="form-control">
                                         <option>1</option>
                                         <option>2</option>
@@ -59,9 +60,9 @@ class CommentForm extends Component {
                                 
 
                             <Row className="form-group">
-                                <Label htmlFor="firstname" md={2}>FirstName</Label>
+                                <Label htmlFor="author" md={2}>FirstName</Label>
                                 <Col md={11}>
-                                    <Control.text model=".firstname" id="firstname" name="firstname"
+                                    <Control.text model=".author" id="author" name="author"
                                         placeholder="First Name"
                                         className="form-control"
                                         validators={{
@@ -82,9 +83,9 @@ class CommentForm extends Component {
                             </Row>
 
                             <Row className="form-group">
-                                <Label htmlFor="message_1" md={2}>Feedback</Label>
+                                <Label htmlFor="comment" md={2}>Feedback</Label>
                                 <Col md={11}>
-                                    <Control.textarea model=".message" id="message" name="message"
+                                    <Control.textarea model=".comment" id="comment" name="comment"
                                         rows="6"
                                         className="form-control" />
                                 </Col>
